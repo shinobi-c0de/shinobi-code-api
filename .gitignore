@@ -1,0 +1,7 @@
+target/
+deploy/
+
+*/__pycache__
+.env
+
+.ropeproject/

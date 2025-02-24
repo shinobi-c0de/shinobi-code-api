@@ -1,0 +1,16 @@
+# Ignore environment files
+.env
+*.env
+
+# Ignore unnecessary files
+target/
+**/target/
+node_modules/
+venv/
+deploy/
+__pycache__/
+.DS_Store
+.idea/
+.vscode/
+.git/
+.ropeproject/
