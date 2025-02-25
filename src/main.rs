@@ -88,7 +88,7 @@ async fn speech2text(mut multipart: Multipart) -> Result<impl IntoResponse, Stat
     // If no audio file was found
     if audio_data.is_empty() {
         let response = json!({"error": "No audio file received"});
-        return Err(StatusCode::BAD_REQUEST);
+        return Ok((StatusCode::BAD_REQUEST, Json(response)));
     }
 
     // Transcribe Speech To text
@@ -103,7 +103,12 @@ async fn speech2text(mut multipart: Multipart) -> Result<impl IntoResponse, Stat
         }
         Err(err) => {
             let response = json!({ "error": err });
-            Err(StatusCode::INTERNAL_SERVER_ERROR)
+            let status_code = if err.contains("Couldn't understand audio") {
+                StatusCode::UNPROCESSABLE_ENTITY // 422 for unintelligible speech
+            } else {
+                StatusCode::INTERNAL_SERVER_ERROR
+            };
+            Ok((status_code, Json(response)))
         }
     }
 }
