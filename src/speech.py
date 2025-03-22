@@ -38,6 +38,7 @@ translation = {
     "番匠 店員":"universal pull", # Shop assistant
     "番匠 天然":"universal pull", # Bansho Natural
     "自爆転生":"Suicide Reincarnation",
+    "天照":"amaterasu",
     "イザナギ":"izanagi",
     "イザナミ":"izanami",
     # ----------------------------------------
@@ -47,7 +48,6 @@ translation = {
     #"":"genjutsu", -> English
     #"":"kakashi of the sharingan", -> English
     #"":"susanoo", -> English
-    #"":"amaterasu", -> English
     #"":"kamui", -> English
     #"":"talk no jutsu" -> English
 }
