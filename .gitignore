@@ -5,3 +5,4 @@ deploy/
 .env
 
 .ropeproject/
+src/bin/

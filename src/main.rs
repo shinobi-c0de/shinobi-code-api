@@ -2,7 +2,7 @@ mod utils;
 
 use axum::{
     extract::Multipart,
-    http::{header, Method, StatusCode},
+    http::{header, HeaderValue, Method, StatusCode},
     response::IntoResponse,
     routing::{get, post},
     Json, Router,
@@ -35,10 +35,17 @@ async fn main() {
 
     tracing_subscriber::fmt().with_target(false).json().init();
 
-    let allowed_origins = AllowOrigin::list([
-        "https://app.shinobi-code.com".parse().unwrap(),
-        "https://demo.shinobi-code.com".parse().unwrap(),
-    ]);
+    let mut origins: Vec<HeaderValue> = vec![
+        "https://app.shinobicode.dev".parse().unwrap(),
+        "https://demo.shinobicode.dev".parse().unwrap(),
+    ];
+
+    let env = env::var("ENV").unwrap();
+    if env == "development" {
+        origins.push("http://localhost:3000".parse().unwrap());
+    }
+
+    let allowed_origins = AllowOrigin::list(origins);
 
     let cors = CorsLayer::new()
         .allow_origin(allowed_origins) // Allow requests from any origin

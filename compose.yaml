@@ -1,10 +1,7 @@
 services:
   shinobi-code-api:
     container_name: shinobi-code-api
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: shinobi-code-api:latest
+    image: ghcr.io/shinobi-c0de/shinobi-code-api:latest
     env_file: .env
     ports:
       - "8080:8080"

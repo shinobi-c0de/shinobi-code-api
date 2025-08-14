@@ -2,10 +2,9 @@
 FROM rust:1.84-slim AS builder
 WORKDIR /usr/src/app
 
-# Install system dependencies for Rust
+# Install required system libs to build Rust and Python bindings
 RUN apt-get update && apt-get install -y \
-    python3 python3-dev python3-venv python3-pip \
-    libssl-dev pkg-config \
+    python3-dev python3-pip libssl-dev pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
@@ -15,7 +14,7 @@ RUN cargo build --release
 FROM python:3.11-slim AS python-deps
 WORKDIR /venv
 
-# Install Python dependencies in a venv
+# Install Python dependencies into venv
 RUN python3 -m venv /venv
 COPY requirements.txt .
 RUN /venv/bin/pip install --no-cache-dir --upgrade pip \
@@ -25,24 +24,20 @@ RUN /venv/bin/pip install --no-cache-dir --upgrade pip \
 FROM python:3.11-slim
 WORKDIR /usr/local/bin
 
-# Install minimal Python runtime dependencies
-#RUN apt-get update && apt-get install -y \
-#    python3 python3-venv python3-pip \
-#    libssl3 \
-#    && rm -rf /var/lib/apt/lists/* \
-#    && apt-get clean autoclean \
-#    && apt-get autoremove -y
+# ✅ Add debugging tools (curl, net-tools)
+RUN apt-get update && apt-get install -y \
+    curl net-tools \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy Rust binary
 COPY --from=builder /usr/src/app/target/release/shinobi-code-api .
 
-# Copy Python venv with dependencies
+# Copy Python venv + scripts
 COPY --from=python-deps /venv /venv
-
-# Copy Python script
 COPY src/*.py .
 
-# Set environment variables
+# Set venv PATH
 ENV PATH="/venv/bin:$PATH"
 
+# Start the API
 CMD ["./shinobi-code-api"]
