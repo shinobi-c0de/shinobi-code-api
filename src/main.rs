@@ -41,8 +41,9 @@ async fn main() {
     ];
 
     let env = env::var("ENV").unwrap();
+    let dev_port = env::var("DEV_PORT").unwrap_or_else(|_| "3000".to_string());
     if env == "development" {
-        origins.push("http://localhost:3000".parse().unwrap());
+        origins.push(format!("http://localhost:{}", dev_port).parse().unwrap());
     }
 
     let allowed_origins = AllowOrigin::list(origins);

@@ -1,8 +1,64 @@
-target/
-deploy/
+# OS / General
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.log
 
-*/__pycache__
+# Editors / IDEs
+.vscode/
+.zed/
+.idea/
+*.iml
+*.code-workspace
+
+# Rust (Cargo)
+/target/
+**/*.rs.bk
+Cargo.lock
+# Uncomment if this is a binary-only project
+Cargo.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# Python tools
+.mypy_cache/
+.ruff_cache/
+.pyright/
+
+# Logs / Runtime
+*.log
+logs/
+tmp/
+
+# Env / Secrets
 .env
+.env.*
+!.env.example
 
-.ropeproject/
-src/bin/
+# Misc
+.cache/
